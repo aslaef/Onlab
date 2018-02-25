@@ -1,47 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 93%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-      <style>
-          nav{
-            background: rgba(0,0,0,.8)
-          }
-      </style>
+{% extends 'home.html' %}
+{% set active_page = "menu4" %}
 
-    <title>Sensor heatmap</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  </head>
-  <body>
-    <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Layouts:</a>
-    </div>
-
-    <ul class="nav navbar-nav" id="navigation">
-      <li><a href="/smoke">Smoke</a></li>
-      <li><a href="/heat">Heat</a></li>
-      <li><a href="/noise">Noise</a></li>
-      <li class="active"><a href="/light">Light</a></li>
-    </ul>
-  </div>
-</nav>
+{% block body %}
 
     <div id="map"></div>
     <script>
@@ -86,5 +46,5 @@
         function
     </script>
 
-  </body>
-</html>
+
+{% endblock %}
