@@ -2,15 +2,14 @@
 {% set active_page = "menu2" %}
 
 {% block body %}
-
-    <div id="map"></div>
+<div id="map"></div>
     <script>
-
       var map;
+
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 15,
-          center: {lat: 47.7793826, lng: 19.9286564},
+          center: new google.maps.LatLng(47.549778,  18.825083),
           mapTypeId: 'terrain'
         });
 
@@ -25,34 +24,29 @@
       }
 
       function eqfeed_callback(results) {
-        var heatmapData = [];
-        var coords  ={{ data|safe }}
-        console.log(coords);
-        for (var i = 0; i < coords.length; i++) {
-            console.log(coords[i])
-          var latLng = new google.maps.LatLng(coords[i][1], coords[i][0]);
-          heatmapData.push(latLng);
-        }
+
+		var mydata = [];
+		var latLng = new google.maps.LatLng(47.549778,  18.825083);
+		//var weighed = new google.maps.WeightedLocation(latLng, 1);
+		mydata.push(latLng);
+		console.log(mydata[0]);
+
+		var myWeightedData = [
+		{location: new google.maps.LatLng(47.549778, 18.825083), weight: 0.1},
+		{location: new google.maps.LatLng(47.555107, 18.820329), weight: 0.3},
+		{location: new google.maps.LatLng(47.553097, 18.829585), weight: 0.2}
+		];
+
         var heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heatmapData,
+          data: myWeightedData,
           dissipating: false,
           map: map
         });
-        heatmap.set('radius', heatmap.get('radius') ? null : 0.001);
-        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.5);
-
-
-
       }
-
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_dB_mJ0BKSMICeV6WCR8h5aLcfK1ysBs&libraries=visualization&callback=initMap">
     </script>
-
-
-
-
 {% endblock %}
 
 

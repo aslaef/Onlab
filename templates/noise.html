@@ -2,49 +2,137 @@
 {% set active_page = "menu3" %}
 
 {% block body %}
+<style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map{
+		height: 50%;
+		width: 500px;
+	  
+	  }
+	  
+      
+</style>
 
-    <div id="map"></div>
-    <script>
-      var map;
+    <div class="container" >
+        <table class ="table" style="border: solid 1px rgb(0,0,0)">
+            <thead>
+                <tr>
+                    <th>Parkoló:</th>
+                    <th>Szabad parkolóhely</th>
+                    <th>Foglalt helyes száma</th>
+                    <th>Összes hely</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>Árnyas u.</td>
+                <td>0</td>
+                <td>10</td>
+                <td>10</td>
+
+            </tr>
+            <tr>
+                <td>Petőfi Sándor u.</td>
+                <td>5</td>
+                <td>10</td>
+                <td>15</td>
+
+            </tr>
+            <tr>
+                <td>Kamilla u.</td>
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+
+            </tr>
+        </table>
+    <table class ="table" style="border: solid 1px rgb(0,0,0); width: 500px; float: left">
+            <thead>
+                <tr>
+                    <th>Parkolók:</th>
+                </tr>
+            </thead>
+            <tr>
+                <td id="map" class ="map" style="width: 500px; height: 500px"></td>
+            </tr>
+
+        </table>
+    <div id="piechart_3d" style="width: 500px; height: 500px; float: right"></div>
+    </div>
+
+
+
+
+
+<script>
+
+      // This example displays a marker at the center of Australia.
+      // When the user clicks the marker, an info window opens.
+
       function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
+		var myLatLng = {lat: 47.547495, lng: 18.823822};
+        var uluru = {lat: 47.551676, lng: 18.816899};
+        var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 15,
-          center: {lat: 47.7793826, lng: 19.9286564},
-          mapTypeId: 'terrain'
+          center: myLatLng
         });
 
-        // Create a <script> tag and set the USGS URL as the source.
-        var script = document.createElement('script');
+        var contentString = '<p>2 szabad hely</p>';
+		var contentString2 = '<p>3 szabad hely</p>';
 
-        // This example uses a local copy of the GeoJSON stored at
-        // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
-        script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
-        document.getElementsByTagName('head')[0].appendChild(script);
+		var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
 
-      }
+        var infowindow2 = new google.maps.InfoWindow({
+          content: contentString2
+        });
 
-      function eqfeed_callback(results) {
-        var heatmapData = [];
-        for (var i = 0; i < results.features.length; i++) {
-          var coords = results.features[i].geometry.coordinates;
-          var latLng = new google.maps.LatLng(coords[1], coords[0]);
-          heatmapData.push(latLng);
-        }
-        var heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heatmapData,
-          dissipating: false,
-          map: map
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Uluru (Ayers Rock)'
+        });
+
+		var marker2 = new google.maps.Marker({
+          position: uluru,
+          map: map,
+          title: 'another parkspot'
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+		marker2.addListener('click', function() {
+          infowindow2.open(map, marker2);
         });
       }
-
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_dB_mJ0BKSMICeV6WCR8h5aLcfK1ysBs&libraries=visualization&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_dB_mJ0BKSMICeV6WCR8h5aLcfK1ysBs&callback=initMap">
     </script>
 
-    <script>
-        function
-    </script>
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['szabad helyek',     11],
+          ['foglalt helyek',      2]
+
+        ]);
+
+        var options = {
+          title: 'Parkolók napi foglaltsága',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
 
 {% endblock %}
