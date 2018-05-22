@@ -3,53 +3,39 @@
 
 {% block body %}
 
-    <div id="map"></div>
-    <script>
+        <div class="table-responsive" >
+        <table class ="table" style="border: solid 1px rgb(0,0,0)">
+            <thead>
+                <tr>
+                    <th>Buszok:</th>
+                    <th>Késés várható ideje</th>
+                    <th>Átlag késés</th>
+                    <th>Siettség várható ideje</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>B1</td>
+                <td>0 perc</td>
+                <td>10 perc</td>
+                <td>10 perc</td>
 
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: {lat: 47.7793826, lng: 19.9286564},
-          mapTypeId: 'terrain'
-        });
+            </tr>
+            <tr>
+                <td>B2</td>
+                <td>5 perc</td>
+                <td>10 perc</td>
+                <td>15 perc</td>
 
-        // Create a <script> tag and set the USGS URL as the source.
-        var script = document.createElement('script');
+            </tr>
+            <tr>
+                <td>B3</td>
+                <td>10 perc</td>
+                <td>0 perc</td>
+                <td>10 perc</td>
 
-        // This example uses a local copy of the GeoJSON stored at
-        // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
-        script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
-        document.getElementsByTagName('head')[0].appendChild(script);
-
-      }
-
-      function eqfeed_callback(results) {
-        var heatmapData = [];
-        var coords  ={{ data|safe }}
-        console.log(coords);
-        for (var i = 0; i < coords.length; i++) {
-            console.log(coords[i])
-          var latLng = new google.maps.LatLng(coords[i][1], coords[i][0]);
-          heatmapData.push(latLng);
-        }
-        var heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heatmapData,
-          dissipating: false,
-          map: map
-        });
-        heatmap.set('radius', heatmap.get('radius') ? null : 0.001);
-        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.5);
-
-
-
-      }
-
-    </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_dB_mJ0BKSMICeV6WCR8h5aLcfK1ysBs&libraries=visualization&callback=initMap">
-    </script>
-
+            </tr>
+        </table>
+        </div>
 
 
 
